@@ -8,5 +8,6 @@
                   stdlib
                  ]},
   {mod, { eflame_app, []}},
-  {env, []}
+  {env, []},
+  {modules, ['eflame','eflame2','eflame_app','eflame_sup']}
  ]}.

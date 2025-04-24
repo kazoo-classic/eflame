@@ -20,15 +20,19 @@
 
 %% For help & use recommendations, run help().
 
+-spec write_trace(atom(), string(), pid() | atom() | [pid()], non_neg_integer()) -> any().
 write_trace(Mode, BinaryFile, PidSpec, SleepMSecs) when is_number(SleepMSecs) ->
     write_trace(Mode, BinaryFile, PidSpec, timer, sleep, [SleepMSecs]).
 
+-spec write_trace(atom(), string(), pid() | atom() | [pid()], module(), atom(), list()) -> any().
 write_trace(Mode, BinaryFile, PidSpec, M, F, A) ->
     write_trace2(normal, Mode, BinaryFile, PidSpec, M, F, A).
 
+-spec write_trace_exp(atom(), string(), pid() | atom() | [pid()], non_neg_integer()) -> any().
 write_trace_exp(Mode, BinaryFile, PidSpec, SleepMSecs) when is_number(SleepMSecs) ->
     write_trace_exp(Mode, BinaryFile, PidSpec, timer, sleep, [SleepMSecs]).
 
+-spec write_trace_exp(atom(), string(), pid() | atom() | [pid()], module(), atom(), list()) -> any().
 write_trace_exp(Mode, BinaryFile, PidSpec, M, F, A) ->
     write_trace2(backtrace, Mode, BinaryFile, PidSpec, M, F, A).
 
@@ -80,9 +84,11 @@ stop_trace(Tracer, _PidSpec) ->
     (exit(Tracer, normal)),
     ok.
 
+-spec format_trace(string()) -> any().
 format_trace(BinaryFile) ->
     format_trace(BinaryFile, BinaryFile ++ ".out").
 
+-spec format_trace(string(), string()) -> any().
 format_trace(BinaryFile, OutFile) ->
     Acc = exp1_init(OutFile),
     dbg:trace_client(file, BinaryFile, {fun exp1/2, Acc}).
@@ -303,6 +309,7 @@ find_matching_stack2(_MFA_bin, []) ->
 start_tracer(BinaryFile) ->
     dbg:tracer(port, dbg:trace_port(file, BinaryFile)).
 
+-spec help() -> ok.
 help() ->
     io:format("
     Usage: 1st phase: Generate a binary trace
@@ -344,6 +351,7 @@ trace_flags(Mode) when is_list(Mode) ->
               "when\nspecifying trace_flags(Mode=~w)\n", [Mode]),
     Mode -- custom_trace_flags().
 
+-spec custom_trace_flags() -> [atom()].
 custom_trace_flags() ->
     [global_and_local_calls, global_calls_only].
 

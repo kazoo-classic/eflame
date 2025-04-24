@@ -10,15 +10,19 @@
 -define(DEFAULT_MODE, normal_with_children).
 -define(DEFAULT_OUTPUT_FILE, "stacks.out").
 
+-spec apply(fun(), list()) -> any().
 apply(F, A) ->
     apply1(?DEFAULT_MODE, ?DEFAULT_OUTPUT_FILE, {F, A}).
 
+-spec apply(module(), atom(), list()) -> any().
 apply(M, F, A) ->
     apply1(?DEFAULT_MODE, ?DEFAULT_OUTPUT_FILE, {{M, F}, A}).
 
+-spec apply(atom(), string(), fun(), list()) -> any().
 apply(Mode, OutputFile, Fun, Args) ->
     apply1(Mode, OutputFile, {Fun, Args}).
 
+-spec apply(atom(), string(), module(), atom(), list()) -> any().
 apply(Mode, OutputFile, M, F, A) ->
     apply1(Mode, OutputFile, {{M, F}, A}).
 
